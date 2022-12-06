@@ -7,7 +7,6 @@ django-ses==3.2.2
 django-storages==1.11.1
 importlib-metadata==5.1.0
 jmespath==0.10.0
-mysqlclient==2.1.1
 Pillow==7.0.0
 python-dateutil==2.8.2
 pytz==2022.6
