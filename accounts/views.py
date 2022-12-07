@@ -2,12 +2,33 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from .forms import NewUSerForm
+import logging
+import boto3
+from botocore.exceptions import ClientError
+import os
+import random
+import json
 
 def signup_view(request):
     if request.method == 'POST':
         form = NewUSerForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            print ("sms")
+            
+            topic_arn = 'arn:aws:sns:us-east-1:219023023686:notifications'
+            message = 'This is a test message on topic.'
+            subject = 'This is a message subject on topic.'
+    
+            AWS_REGION = 'us-east-1'
+            sns_client = boto3.client('sns', region_name=AWS_REGION)
+            response = sns_client.publish(
+                TopicArn=topic_arn,
+                Message=message,
+                Subject=subject,
+                )['MessageId']
+            
             login(request, user)
             return redirect('main:home')
     else:

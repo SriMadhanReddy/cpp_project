@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
     'crispy_forms',
+    'storages'
 ]
 
 MIDDLEWARE = [
