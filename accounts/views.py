@@ -19,7 +19,7 @@ def signup_view(request):
             
             topic_arn = 'arn:aws:sns:us-east-1:219023023686:notifications'
             message = 'Hurray!! we have a new user signed up.'
-            subject = 'This is a message subject on topic.'
+            subject = 'You Have a new message from SnackPack'
     
             AWS_REGION = 'us-east-1'
             sns_client = boto3.client('sns', region_name=AWS_REGION)
