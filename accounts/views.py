@@ -18,7 +18,7 @@ def signup_view(request):
             print ("sms")
             
             topic_arn = 'arn:aws:sns:us-east-1:219023023686:notifications'
-            message = 'This is a test message on topic.'
+            message = 'Hurray!! we have a new user signed up.'
             subject = 'This is a message subject on topic.'
     
             AWS_REGION = 'us-east-1'
