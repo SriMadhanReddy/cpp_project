@@ -8,6 +8,7 @@ from botocore.exceptions import ClientError
 import os
 import random
 import json
+from botocore.config import Config
 
 def signup_view(request):
     if request.method == 'POST':
@@ -15,19 +16,19 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             
-            print ("sms")
             
-            topic_arn = 'arn:aws:sns:us-east-1:219023023686:notifications'
-            message = 'Hurray!! we have a new user signed up.'
-            subject = 'You Have a new message from SnackPack'
-    
-            AWS_REGION = 'us-east-1'
-            sns_client = boto3.client('sns', region_name=AWS_REGION)
-            response = sns_client.publish(
-                TopicArn=topic_arn,
-                Message=message,
-                Subject=subject,
-                )['MessageId']
+            #Lambda block for triggering sns message
+            lambdafunctionname = "snstrigger"
+            config = Config(read_timeout=5000,
+                            connect_timeout=300,
+                            retries={"max_attempts": 4})
+            lambdafuninput =  {}
+            session = boto3.Session()
+            lambda_client = session.client('lambda', config=config, region_name='us-east-1')
+            response = lambda_client.invoke(FunctionName=lambdafunctionname,
+                                        InvocationType='RequestResponse',
+                                        Payload=json.dumps(lambdafuninput))
+            res_str = response['Payload'].read()
             
             login(request, user)
             return redirect('main:home')
