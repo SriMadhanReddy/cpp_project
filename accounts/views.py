@@ -15,16 +15,11 @@ def signup_view(request):
         form = NewUSerForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
-            
             #Lambda block for triggering sns message
             lambdafunctionname = "snstrigger"
-            config = Config(read_timeout=5000,
-                            connect_timeout=300,
-                            retries={"max_attempts": 4})
             lambdafuninput =  {}
             session = boto3.Session()
-            lambda_client = session.client('lambda', config=config, region_name='us-east-1')
+            lambda_client = session.client('lambda', region_name='us-east-1')
             response = lambda_client.invoke(FunctionName=lambdafunctionname,
                                         InvocationType='RequestResponse',
                                         Payload=json.dumps(lambdafuninput))
