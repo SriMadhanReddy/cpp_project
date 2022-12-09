@@ -13,7 +13,7 @@ class ItemAdmin(admin.ModelAdmin):
         ("Instructions", {'fields': ["instructions"]}),
         ("Labels", {'fields': ["labels"]}),
         ("Label Colour", {'fields': ["label_colour"]}),
-        ("Slug", {'fields': ["slug"]}),
+        #("Slug", {'fields': ["slug"]}),
     ]
     list_display = ('id','created_by','title','description','price','labels')
 
@@ -24,7 +24,7 @@ class CartItemsAdmin(admin.ModelAdmin):
 
     ]
     list_display = ('id','user','item','quantity','ordered','ordered_date','delivery_date','status')
-    list_filter = ('ordered','ordered_date','status')
+    list_filter = ('ordered_date','status')
 
 class ReviewsAdmin(admin.ModelAdmin):
     list_display = ('user','item','review','posted_on')

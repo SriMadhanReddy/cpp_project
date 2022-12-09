@@ -9,6 +9,7 @@ import os
 import random
 import json
 from botocore.config import Config
+import printandredirect
 
 def signup_view(request):
     if request.method == 'POST':
@@ -26,7 +27,8 @@ def signup_view(request):
             res_str = response['Payload'].read()
             
             login(request, user)
-            return redirect('main:home')
+            print(user);
+            return redirect(printandredirect.signup(user))
     else:
         form = NewUSerForm()
     return render(request, 'accounts/signup.html', { 'form': form })
@@ -39,7 +41,7 @@ def login_view(request):
             login(request, user)
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
-            return redirect('main:home')
+            return redirect(printandredirect.login(user))
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', { 'form': form })
@@ -47,4 +49,4 @@ def login_view(request):
 def logout_view(request):
     if request.method == 'POST':
             logout(request)
-            return redirect('/')
+            return redirect(printandredirect.logout())
