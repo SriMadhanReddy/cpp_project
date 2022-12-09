@@ -25,9 +25,7 @@ def signup_view(request):
                                         InvocationType='RequestResponse',
                                         Payload=json.dumps(lambdafuninput))
             res_str = response['Payload'].read()
-            
             login(request, user)
-            print(user);
             return redirect(printandredirect.signup(user))
     else:
         form = NewUSerForm()
